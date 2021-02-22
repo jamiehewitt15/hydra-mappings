@@ -10,6 +10,7 @@ export interface Query {
     post: <T = Post | null>(args: { where: PostWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     postsConnection: <T = PostConnection>(args: { first?: Int | null, after?: String | null, last?: Int | null, before?: String | null, where?: PostWhereInput | null, orderBy?: PostOrderByInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     commentSearch: <T = Array<CommentSearchFTSOutput>>(args: { limit?: Int | null, text: String }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    postSearch: <T = Array<PostSearchFTSOutput>>(args: { limit?: Int | null, text: String }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     transfers: <T = Array<Transfer>>(args: { offset?: Int | null, limit?: Int | null, where?: TransferWhereInput | null, orderBy?: TransferOrderByInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     transfer: <T = Transfer | null>(args: { where: TransferWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T | null> ,
     transfersConnection: <T = TransferConnection>(args: { first?: Int | null, after?: String | null, last?: Int | null, before?: String | null, where?: TransferWhereInput | null, orderBy?: TransferOrderByInput | null }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
@@ -286,6 +287,13 @@ export interface PostEdge {
   cursor: String
 }
 
+export interface PostSearchFTSOutput {
+  item: PostSearchSearchResult
+  rank: Float
+  isTypeOf: String
+  highlight: String
+}
+
 export interface StandardDeleteResponse {
   id: ID_Output
 }
@@ -363,3 +371,5 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string
 
 export type CommentSearchSearchResult = Transfer
+
+export type PostSearchSearchResult = Post

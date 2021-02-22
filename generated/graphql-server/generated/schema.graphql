@@ -128,6 +128,15 @@ enum PostOrderByInput {
   author_DESC
 }
 
+type PostSearchFTSOutput {
+  item: PostSearchSearchResult!
+  rank: Float!
+  isTypeOf: String!
+  highlight: String!
+}
+
+union PostSearchSearchResult = Post
+
 input PostUpdateInput {
   content: String
   author: Bytes
@@ -176,6 +185,7 @@ type Query {
   post(where: PostWhereUniqueInput!): Post
   postsConnection(first: Int, after: String, last: Int, before: String, where: PostWhereInput, orderBy: PostOrderByInput): PostConnection!
   commentSearch(limit: Int = 5, text: String!): [CommentSearchFTSOutput!]!
+  postSearch(limit: Int = 5, text: String!): [PostSearchFTSOutput!]!
   transfers(offset: Int, limit: Int = 50, where: TransferWhereInput, orderBy: TransferOrderByInput): [Transfer!]!
   transfer(where: TransferWhereUniqueInput!): Transfer
   transfersConnection(first: Int, after: String, last: Int, before: String, where: TransferWhereInput, orderBy: TransferOrderByInput): TransferConnection!
