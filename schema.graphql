@@ -10,3 +10,59 @@ type Post @entity {
   content: String! @fulltext(query: "postSearch")
   author: Bytes!
 } 
+"A membership."
+type Member @entity {
+
+  "Runtime id of membership"
+  id: ID!
+
+  "Root account in SS58 encoding."
+  rootAccount: String!
+
+  "Member controller in SS58 encoding."
+  controllerAccount: String!
+
+  "The unique handle chosen by member"
+  handle: String @unique @fulltext(query: "membersByHandle")
+
+  "Avatar of member"
+  #avatar: StorageAssetStatus!
+  avatarURI: String
+
+  "Short text chosen by member to share information about themselves"
+  about: String
+
+  "Whether member is verified."
+  isVerified: Boolean!
+
+  "Whether member is founding member."
+  isFoundingMember: Boolean!
+
+  "Number of invites member has."
+  inviteCount: BigInt!
+
+  "Accounts bounded to membership."
+  boundAccounts: [String!]
+
+  #"The member which invited this member if the latter originated from an invitation.
+  #This redundant field is introduced in order to facilitate the convenient reverse lookup field invitees, which cannot inspect union fields currently."
+  #invitor: Member
+
+  #"All members invited by this member."
+  #invitees: [Member!] @derivedFrom(field: "invitor")
+
+  #"All worker roles corresponding to this member."
+  #workers: [Worker!] @derivedFrom(field: "member")
+
+  "Where membership came from."
+  source : MemberSource!
+
+  # Possible reverse lookups
+  # threadsCreated: [Thread!] @derivedFrom(field: "author")
+  # postsCreated: [Post!] @derivedFrom(field: "author")
+  # applicationsSubmitted:
+  # proposalsSubmitted
+  # uploadsInitiated:
+  # ..
+
+}
